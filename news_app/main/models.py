@@ -10,6 +10,7 @@ class News_data(models.Model):
     heading = models.CharField(max_length=400,null=True)
     img = models.URLField(max_length=300)
     url = models.URLField(max_length=300)
+    content = models.CharField(max_length=5000,null=False,default="failed to load data")
     date = models.DateTimeField(timezone.now(),null=True)
 
     @property
@@ -18,7 +19,8 @@ class News_data(models.Model):
             "data":json.dump({
                 "Heading":self.heading,
                 "Image_url":self.img ,
-                "post_url":self.url
+                "post_url":self.url,
+                "content":self.content
             }),
         }
         return data

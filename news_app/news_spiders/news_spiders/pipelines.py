@@ -15,7 +15,7 @@ coloredlogs.install(level="WARN", logger=logger)
 class NewsSpidersPipeline:
     def process_item(self, item, spider):
         try:
-            News_data.objects.create(heading=item['heading'], img=item['img'],url=item['url'])
+            News_data.objects.create(heading=item['heading'], img=item['img'],url=item['url'],content =item['content'])
             print("\n")
             logger.warn("Loaded news {}".format(item['heading']))
             print(item)

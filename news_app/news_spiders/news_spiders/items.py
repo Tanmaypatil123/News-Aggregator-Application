@@ -13,4 +13,5 @@ class NewsSpidersItem(scrapy.Item):
     heading = scrapy.Field()
     img = scrapy.Field()
     url = scrapy.Field()
+    content = scrapy.Field()
 
