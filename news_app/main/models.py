@@ -22,6 +22,7 @@ class News_data(models.Model):
                 "post_url":self.url,
                 "content":self.content
             }),
+            "date":self.date
         }
         return data
     def __str__(self):

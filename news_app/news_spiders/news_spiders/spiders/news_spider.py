@@ -3,6 +3,7 @@ import scrapy
 from ..items import NewsSpidersItem
 import requests
 from bs4 import BeautifulSoup
+import datetime
 
 class NewsSpider(scrapy.Spider):
     name = 'news'
@@ -18,12 +19,20 @@ class NewsSpider(scrapy.Spider):
             news["heading"] = heading
             news["img"] = img
             news['url'] = url
-            news['content'] = self.scarp_p_tag_content(news['url'])
+            content = self.scarp_p_tag_content(news['url'])
+            if content == -1:
+                continue
+            news['content'] = content
+            news['date'] = datetime.date.today()
             yield news
 
-        next_page = "https://www.indiatoday.in" + response.css("li.pager-next a").attrib['href']   
-        if next_page is not None:
-            yield response.follow(next_page,callback=self.parse)                     
+           
+        if response.css("li.pager-next a") is not None:
+            try:
+                next_page = "https://www.indiatoday.in" + response.css("li.pager-next a").attrib['href']
+                yield response.follow(next_page,callback=self.parse) 
+            except KeyError:
+                print("scarping done")                        
 
     def scarp_p_tag_content(self,url):
     # yield response.css('div.description p')
@@ -33,6 +42,8 @@ class NewsSpider(scrapy.Spider):
 
         soup = BeautifulSoup(page.content, "html.parser")  
         desc = soup.find('div',class_ = "description")
+        if desc is None :
+            return -1
         p_tag = desc.find_all('p')
         for i in p_tag:
             res += i.text
