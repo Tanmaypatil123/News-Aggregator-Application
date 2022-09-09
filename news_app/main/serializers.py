@@ -6,6 +6,8 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News_data
         fields = [
+            "id",
+            "category",
             "heading",
             "img",
             "url",

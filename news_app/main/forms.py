@@ -4,6 +4,8 @@ class NewsForm(forms.ModelForm):
     class Meta:
         model: News_data
         fields = [
+            "id",
+            "category",
             "heading",
             "img",
             "url",

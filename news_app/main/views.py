@@ -3,15 +3,16 @@ from django.shortcuts import render
 from rest_framework import generics,authentication,permissions
 
 from .permissions import IsStaffEditorPermission
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from .models import News_data
 from .serializers import NewsSerializer
 from rest_framework.response import Response
 from rest_framework import mixins
-
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def news_all_list(request,pk = None,*args,**kwargs):
     method = request.method
 
