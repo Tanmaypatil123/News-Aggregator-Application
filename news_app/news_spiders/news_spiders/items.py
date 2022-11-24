@@ -15,4 +15,5 @@ class NewsSpidersItem(scrapy.Item):
     url = scrapy.Field()
     content = scrapy.Field()
     date = scrapy.Field()
+    category = scrapy.Field()
 

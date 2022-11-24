@@ -31,3 +31,4 @@ class News_data(models.Model):
         return data
     def __str__(self):
         return self.heading
+      

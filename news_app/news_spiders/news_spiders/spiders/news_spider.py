@@ -1,4 +1,5 @@
 
+from urllib import request
 import scrapy
 from ..items import NewsSpidersItem
 import requests
@@ -7,7 +8,7 @@ import datetime
 
 class NewsSpider(scrapy.Spider):
     name = 'news'
-    start_urls = ['https://www.indiatoday.in/top-stories']
+    start_urls = ['https://www.indiatoday.in/top-stories','https://www.indiatoday.in/business','https://www.indiatoday.in/world','https://www.indiatoday.in/science']
 
     def parse(self,response):
         for i in  response.css('div.catagory-listing'):
@@ -24,6 +25,7 @@ class NewsSpider(scrapy.Spider):
                 continue
             news['content'] = content
             news['date'] = datetime.date.today()
+            news['category'] =response.css('h1.category-heading::text').get()
             yield news
 
            
@@ -32,7 +34,8 @@ class NewsSpider(scrapy.Spider):
                 next_page = "https://www.indiatoday.in" + response.css("li.pager-next a").attrib['href']
                 yield response.follow(next_page,callback=self.parse) 
             except KeyError:
-                print("scarping done")                        
+                print("scarping done")                      
+
 
     def scarp_p_tag_content(self,url):
     # yield response.css('div.description p')
